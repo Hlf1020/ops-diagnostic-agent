@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Local state
+.env
+data/*.sqlite
+data/*.sqlite-*
+data/traces/
+data/audit/
+data/qdrant/
+data/eval/
+*.log
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

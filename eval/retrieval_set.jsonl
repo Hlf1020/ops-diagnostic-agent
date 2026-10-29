@@ -1,0 +1,12 @@
+{"id":"ret-01","query":"HikariPool Connection is not available 连接池 超时 支付","expected_doc_ids":["incident-2026-08-payment-pool","runbook-payment-latency","error-codes"]}
+{"id":"ret-02","query":"db.pool.max_size 配置变更 导致 P99 延迟","expected_doc_ids":["runbook-payment-latency","incident-2026-08-payment-pool"]}
+{"id":"ret-03","query":"OOMKilled exit code 137 新版本 回滚","expected_doc_ids":["incident-order-oom","runbook-error-rate","error-codes"]}
+{"id":"ret-04","query":"CPU throttling 营销活动 QPS 翻倍 扩容","expected_doc_ids":["incident-search-throttle","runbook-traffic-surge"]}
+{"id":"ret-05","query":"Redis connection refused 熔断 依赖故障","expected_doc_ids":["runbook-dependency","error-codes"]}
+{"id":"ret-06","query":"No space left on device OSError 28 日志清理","expected_doc_ids":["runbook-resource-disk","error-codes"]}
+{"id":"ret-07","query":"no such host DNS 解析失败 TCP 重传","expected_doc_ids":["runbook-network-dns","error-codes"]}
+{"id":"ret-08","query":"变更关联分析 change_id diff 时间相关","expected_doc_ids":["runbook-change-review"]}
+{"id":"ret-09","query":"回滚 高风险操作 审批 幂等键","expected_doc_ids":["runbook-rollback"]}
+{"id":"ret-10","query":"GC pause 堆 线程 连接池 延迟","expected_doc_ids":["runbook-gc","runbook-payment-latency"]}
+{"id":"ret-11","query":"P99 指标口径 error_rate dependency_error_rate","expected_doc_ids":["runbook-observability"]}
+{"id":"ret-12","query":"NullPointerException 优惠券 空指针 订单","expected_doc_ids":["incident-order-oom","runbook-error-rate"]}

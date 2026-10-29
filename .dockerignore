@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.git/
+.env
+pip-install.log
+*.log
+eval/out/
+data/traces/
+data/audit/
+data/checkpoints.sqlite*
+data/eval/
+docs/

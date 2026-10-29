@@ -1,0 +1,18 @@
+[project]
+name = "ops-diagnostic-agent"
+version = "1.0.0"
+description = "Auditable, evaluable enterprise ops diagnostic agent"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 118
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]

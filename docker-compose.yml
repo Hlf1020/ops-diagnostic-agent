@@ -1,0 +1,83 @@
+services:
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      LLM_BASE_URL: ${LLM_BASE_URL:-https://api.deepseek.com/v1}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-deepseek-chat}
+      SESSION_BACKEND: redis
+      REDIS_URL: redis://redis:6379/0
+      LONG_TERM_BACKEND: qdrant
+      QDRANT_URL: http://qdrant:6333
+      CHECKPOINT_BACKEND: sqlite
+      CHECKPOINT_DB: /app/state/checkpoints.sqlite
+      TRACE_DIR: /app/state/traces
+      AUDIT_PATH: /app/state/audit/approvals.jsonl
+      KB_PATH: /app/data/kb/docs.jsonl
+      TRACING_ENABLED: "true"
+      MOCK_NOW: ${MOCK_NOW:-2026-10-20T22:00:00+08:00}
+      MOCK_FAIL_TOOLS: ${MOCK_FAIL_TOOLS:-}
+    volumes:
+      - agent_state:/app/state
+    depends_on:
+      redis:
+        condition: service_healthy
+      qdrant:
+        condition: service_started
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  ui:
+    build: .
+    command:
+      [
+        "streamlit",
+        "run",
+        "ui/streamlit_app.py",
+        "--server.address=0.0.0.0",
+        "--server.port=8501",
+        "--server.headless=true",
+      ]
+    ports:
+      - "8501:8501"
+    environment:
+      API_BASE_URL: http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  redis_data:
+  qdrant_data:
+  agent_state:
